@@ -5,6 +5,7 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
+import { clearCartItems } from '../slices/cartSlice';
 import { toast } from 'react-toastify';
 import logo from '../assets/logo.png';
 import SearchBox from './SearchBox';
@@ -18,7 +19,9 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
+      // Clear Cart items during logout
       await logoutApiCall().unwrap();
+      dispatch(clearCartItems());
       dispatch(logout());
       navigate('/login');
       toast.success('User Logout', {
